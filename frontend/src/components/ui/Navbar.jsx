@@ -31,7 +31,7 @@ const Navbar = () => {
 
         }
     }
-    console.log(cart);
+    
 
     return (
         <header className="bg-pink-50 fixed w-full z-20 border-b border-pink-200">

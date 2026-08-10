@@ -23,7 +23,7 @@ const ProductCard = ({product, loading}) =>{
             })
             if(res.data.success){
                 toast.success('Product added to Cart')
-                console.log(res.data);
+                
                 dispatch(setCart(res.data.cart))
             }
         } catch (error) {

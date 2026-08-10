@@ -5,7 +5,6 @@ const AdminOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const accessToken = localStorage.getItem("accessToken");
-    console.log('orders', orders);
 
     useEffect(() => {
         const fetchOrders = async () => {

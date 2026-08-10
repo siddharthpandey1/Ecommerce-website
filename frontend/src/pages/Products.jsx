@@ -77,7 +77,7 @@ const Products = () => {
     useEffect(() => {
         getAllProducts()
     }, [])
-    console.log(allProducts);
+
 
 
     return (

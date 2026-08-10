@@ -7,7 +7,6 @@ const FilterSidebar = ({ search, setSearch, category, setCategory, brand, setBra
 
     const Brands = allProducts.map(p => p.brand)
     const UniqueBrand = ["All", ...new Set(Brands)]
-    console.log(UniqueBrand);
 
     const handleCategoryClick = (val) => {
         setCategory(val)

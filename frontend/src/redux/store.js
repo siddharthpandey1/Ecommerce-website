@@ -12,10 +12,7 @@ import {
 } from 'redux-persist'
 import storageModule from "redux-persist/lib/storage";
 const storage = storageModule.default;
-console.log("storage:", storage);
-console.log(storage);
-console.log(typeof storage.getItem);
-console.log(typeof storage.setItem);
+
 
 const persistConfig = {
     key:'root',
