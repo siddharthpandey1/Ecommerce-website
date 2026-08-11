@@ -42,11 +42,11 @@ const Login = () => {
         try {
             setLoading(true)
             const res = await axios.post(`http://localhost:8000/api/v1/user/login`, formData, {
-                headers:{
-                    "Content-Type":"application/json"
+                headers: {
+                    "Content-Type": "application/json"
                 }
             })
-            if(res.data.success){
+            if (res.data.success) {
                 navigate('/')
                 dispatch(setUser(res.data.user))
                 localStorage.setItem("accessToken", res.data.accessToken)
@@ -55,13 +55,13 @@ const Login = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message)
-            
-        } finally{
+
+        } finally {
             setLoading(false)
         }
     }
     return (
-        <div className="flex justify-center items-center min-h-screen bg-pink-100">
+        <div className="flex justify-center items-center min-h-screen bg-pink-100 px-4">
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Create your account</CardTitle>

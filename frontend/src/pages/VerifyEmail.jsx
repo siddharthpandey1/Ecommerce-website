@@ -29,11 +29,9 @@ const VerifyEmail = () => {
         verifyEmail()
     }, [token])
     return (
-        <div className="ralative w-full h-[760px] bg-pink-100 overflow-hidden">
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="bg-white p-6 rounded-2x1 shadow-md text-center w-[90%] max-w-md">
-                    <h2 className="text-xl font-semibold text-gray-800">{status}</h2>
-                </div>
+        <div className="min-h-screen bg-pink-100 flex items-center justify-center px-4">
+            <div className="bg-white p-6 rounded-2xl shadow-md text-center w-full max-w-md">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{status}</h2>
             </div>
         </div>
     )

@@ -32,45 +32,44 @@ const AdminSalse = () => {
         fetchStats()
     }, [])
     return (
-        <div className="pl-[350px] bg-gray-100 py-20 pr-20 mx-auto px-4">
-            <div className='p-6 grid gap-6 lg:grid-cols-4'>
+        <div className="bg-gray-100 pt-20 md:pt-24 pb-6 md:pb-10 px-4 md:px-8 mx-auto min-h-screen">
+            <div className='grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4 pt-4'>
                 {/* stats card */}
                 <Card className="bg-pink-500 text-white shadow">
-                    <CardHeader>
-                        <CardTitle>Total Users</CardTitle>
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="text-sm sm:text-base">Total Users</CardTitle>
                     </CardHeader>
-                    <CardContent className="text-2xl font-bold">{stats.totalUsers}</CardContent>
+                    <CardContent className="text-xl sm:text-2xl font-bold p-4 sm:p-6 pt-0">{stats.totalUsers}</CardContent>
                 </Card>
                 <Card className="bg-pink-500 text-white shadow">
-                    <CardHeader>
-                        <CardTitle>Total Products</CardTitle>
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="text-sm sm:text-base">Total Products</CardTitle>
                     </CardHeader>
-                    <CardContent className="text-2xl font-bold">{stats.totalProducts}</CardContent>
+                    <CardContent className="text-xl sm:text-2xl font-bold p-4 sm:p-6 pt-0">{stats.totalProducts}</CardContent>
                 </Card>
                 <Card className="bg-pink-500 text-white shadow">
-                    <CardHeader>
-                        <CardTitle>Total Orders</CardTitle>
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="text-sm sm:text-base">Total Orders</CardTitle>
                     </CardHeader>
-                    <CardContent className="text-2xl font-bold">{stats.totalOrders}</CardContent>
+                    <CardContent className="text-xl sm:text-2xl font-bold p-4 sm:p-6 pt-0">{stats.totalOrders}</CardContent>
                 </Card>
                 <Card className="bg-pink-500 text-white shadow">
-                    <CardHeader>
-                        <CardTitle>Total Sales</CardTitle>
+                    <CardHeader className="p-4 sm:p-6">
+                        <CardTitle className="text-sm sm:text-base">Total Sales</CardTitle>
                     </CardHeader>
-                    <CardContent className="text-2xl font-bold">{stats.totalSales}</CardContent>
+                    <CardContent className="text-xl sm:text-2xl font-bold p-4 sm:p-6 pt-0">{stats.totalSales}</CardContent>
                 </Card>
 
-                {/* slaes Chart */}
-
-                <Card className="lg:col-span-4">
+                {/* sales Chart */}
+                <Card className="col-span-2 lg:col-span-4">
                     <CardHeader>
                         <CardTitle>Sales (Last 30 Days)</CardTitle>
                     </CardHeader>
-                    <CardContent style={{ height: 300 }}>
+                    <CardContent style={{ height: 250 }} className="sm:!h-[300px] px-2 sm:px-6">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={stats.sales}>
-                                <XAxis dataKey="date" />
-                                <YAxis />
+                            <AreaChart data={stats.sales} margin={{ top: 5, right: 10, left: -15, bottom: 0 }}>
+                                <XAxis dataKey="date" tick={{ fontSize: 10 }} interval="preserveStartEnd" />
+                                <YAxis tick={{ fontSize: 10 }} width={45} />
                                 <Tooltip />
                                 <Area type="monotone" dataKey="amount" stroke="#F472B6" fill='#F472B6' />
                             </AreaChart>

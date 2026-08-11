@@ -13,8 +13,8 @@ import ProductCard from "@/components/ui/ProductCard";
 import { toast } from "sonner";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import store from "@/redux/store";
 import { setProducts } from "@/redux/productSlice";
+import { SlidersHorizontal } from "lucide-react";
 
 const Products = () => {
     const { products } = useSelector(store => store.product)
@@ -26,6 +26,7 @@ const Products = () => {
     const [brand, setBrand] = useState("All")
     const [priceRange, setPriceRange] = useState([0, 999999])
     const [sortOrder, setSortOrder] = useState('')
+    const [filterOpen, setFilterOpen] = useState(false)
     const dispatch = useDispatch()
 
     const getAllProducts = async () => {
@@ -81,7 +82,7 @@ const Products = () => {
 
 
     return (
-        <div className="pt-20 pb-10 ">
+        <div className="pt-20 pb-10 px-4">
             <div className="max-w-7xl mx-auto flex gap-7">
                 {/* sidebar */}
                 <FilterSidebar
@@ -94,12 +95,22 @@ const Products = () => {
                     allProducts={allProducts}
                     priceRange={priceRange}
                     setPriceRange={setPriceRange}
+                    isOpen={filterOpen}
+                    onClose={() => setFilterOpen(false)}
                 />
                 {/* Main product section */}
                 <div className="flex flex-col flex-1">
-                    <div className="flex justify-end mb-4">
+                    <div className="flex justify-between md:justify-end mb-4 gap-3">
+                        {/* mobile filter toggle */}
+                        <button
+                            onClick={() => setFilterOpen(true)}
+                            className="md:hidden flex items-center gap-2 border-2 border-gray-300 px-3 py-2 rounded-md bg-white"
+                        >
+                            <SlidersHorizontal size={18} /> Filters
+                        </button>
+
                         <Select onValueChange={(value) => setSortOrder(value)}>
-                            <SelectTrigger className='w-[200px]'>
+                            <SelectTrigger className='w-[160px] sm:w-[200px]'>
                                 <SelectValue placeholder="Sort by Price" />
                             </SelectTrigger>
                             <SelectContent>
@@ -111,7 +122,7 @@ const Products = () => {
                         </Select>
                     </div>
                     {/*   product grid   */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-7">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-7">
                         {
                             safeProduct.map((product) => {
                                 return <ProductCard key={product._id} product={product} loading={loading} />

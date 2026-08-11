@@ -3,28 +3,28 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const ShowUserOrders = () =>{
+const ShowUserOrders = () => {
     const params = useParams()
 
     const [userOrder, setUserOrder] = useState(null)
 
-    const getUserOrders = async () =>{
+    const getUserOrders = async () => {
         const accessToken = localStorage.getItem("accessToken")
         const res = await axios.get(`${import.meta.env.VITE_URL}/api/v1/orders/user-order/${params.userId}`, {
-            headers:{
-                Authorization:`Bearer ${accessToken}`
+            headers: {
+                Authorization: `Bearer ${accessToken}`
             }
         })
-        if(res.data.success){
+        if (res.data.success) {
             setUserOrder(res.data.orders)
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         getUserOrders()
-    },[])
-    return(
-        <div className="pl-[350px] py-20">
-           <OrderCard userOrder={userOrder}/>
+    }, [])
+    return (
+        <div className="pt-20 md:pt-24 pb-6 md:pb-10">
+            <OrderCard userOrder={userOrder} />
         </div>
     )
 }

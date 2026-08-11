@@ -1,13 +1,5 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -95,28 +87,28 @@ const Profile = () => {
 
     }
     return (
-        <div className="pt-30 min-h-screen bg-gray-100">
+        <div className="pt-24 md:pt-32 pb-10 px-4 min-h-screen bg-gray-100">
             <Tabs defaultValue="profile" className="max-w-7xl mx-auto items-center">
                 <TabsList>
                     <TabsTrigger value="profile">Profile</TabsTrigger>
                     <TabsTrigger value="orders">Orders</TabsTrigger>
                 </TabsList>
-                <TabsContent value="profile">
+                <TabsContent value="profile" className="w-full">
                     <div>
                         <div className="flex flex-col justify-center items-center bg-gray-100">
-                            <h1 className="font-bold mb-7 text-2xl text-gray-800">Update Profile</h1>
-                            <div className="w-full flex gap-10 justify-between items-start px-7 max-w-2xl">
+                            <h1 className="font-bold mb-7 text-xl sm:text-2xl text-gray-800">Update Profile</h1>
+                            <div className="w-full flex flex-col md:flex-row gap-8 md:gap-10 justify-between items-center md:items-start px-0 sm:px-7 max-w-2xl">
                                 {/* profile pecture */}
-                                <div className="flex flex-col items-center">
-                                    <img src={updateUser?.profilePic || userLogo} alt="profile" className="w-32 h-32 rounded-full object-cover border-4 border-pink-800" />
+                                <div className="flex flex-col items-center shrink-0">
+                                    <img src={updateUser?.profilePic || userLogo} alt="profile" className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-pink-800" />
                                     <Label className="mt-4 cursor-pointer bg-pink-600 text-white px-4 py-2 rounded-lg
                                     hover:bg-pink-700">ChangePicture
                                         <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
                                     </Label>
                                 </div>
                                 {/* profile form */}
-                                <form onSubmit={handleSubmit} className="space-y-4 shadow-lg p-5 rounded-lg bg-white">
-                                    <div className="grid grid-cols-2 gap-4">
+                                <form onSubmit={handleSubmit} className="space-y-4 shadow-lg p-4 sm:p-5 rounded-lg bg-white w-full">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <Label className='block text-sm font-medium'>Frist Name</Label>
                                             <Input type='text' name="firstName" placeholder="Enter your FristName" value={updateUser.firstName} onChange={handleChange} className='w-full border rounded-lg px-3 py-2 mt-1' />
@@ -138,7 +130,7 @@ const Profile = () => {
                                         <Label className='block text-sm font-medium'>Address</Label>
                                         <Input type='text' name="address" placeholder="Enter your Address" value={updateUser.address} onChange={handleChange} className='w-full border rounded-lg px-3 py-2 mt-1' />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
                                             <Label className='block text-sm font-medium'>City</Label>
                                             <Input type='text' name="city" placeholder="Enter your city" value={updateUser.city} onChange={handleChange} className='w-full border rounded-lg px-3 py-2 mt-1' />
@@ -160,7 +152,7 @@ const Profile = () => {
                         </div>
                     </div>
                 </TabsContent>
-                <TabsContent value="orders">
+                <TabsContent value="orders" className="w-full">
                     <MyOrder/>
                 </TabsContent>
             </Tabs>

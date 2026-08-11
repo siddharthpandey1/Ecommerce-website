@@ -14,7 +14,7 @@ import { Loader2 } from 'lucide-react'
 const AddProduct = () => {
     const accessToken = localStorage.getItem("accessToken")
     const dispatch = useDispatch()
-    const {products} = useSelector(store=>store.product)
+    const { products } = useSelector(store => store.product)
     const [loading, setLoading] = useState(false)
     const [productData, setProductData] = useState({
         productName: "",
@@ -65,14 +65,14 @@ const AddProduct = () => {
         }
     }
     return (
-        <div className='pl-[350px] py-10 pr-20 mx-auto px-4 bg-gray-100'>
-            <Card className='w-full my-20'>
+        <div className='py-6 md:py-10 px-4 md:px-8 mx-auto bg-gray-100 min-h-screen'>
+            <Card className='w-full max-w-3xl mx-auto my-6 md:my-10'>
                 <CardHeader>
                     <CardTitle>Add Product</CardTitle>
                     <CardDescription>Enter Product details below</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col gap-3'>
                         <div className='grid gap-2'>
                             <Label>Product Name</Label>
                             <Input type='text'
@@ -89,7 +89,7 @@ const AddProduct = () => {
                                 onChange={handleChange}
                                 placeholder="" required />
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label>Brand</Label>
                                 <Input type='text'
@@ -119,15 +119,15 @@ const AddProduct = () => {
 
                         <ImageUpload productData={productData} setProductData={setProductData} />
                     </div>
-                    <CardFooter className="flex-col gap-2">
+                    <CardFooter className="flex-col gap-2 px-0">
                         <Button disabled={loading}
                             onClick={submitHandler}
                             className="w-full mt-5 bg-pink-600 cursor-pointer"
                             type='submit'>
-                                {
-                                    loading ? <span className='flex gap-1 items-center'><Loader2 className='animate-spin'/>Please wait</span> : 'Add Product'
-                                }
-                            </Button>
+                            {
+                                loading ? <span className='flex gap-1 items-center'><Loader2 className='animate-spin' />Please wait</span> : 'Add Product'
+                            }
+                        </Button>
                     </CardFooter>
                 </CardContent>
             </Card>

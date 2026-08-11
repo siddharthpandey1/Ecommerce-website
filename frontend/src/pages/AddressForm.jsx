@@ -67,7 +67,7 @@ const AddressForm = () => {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: data.order.amount,
                 currency: data.order.currency,
-                order_id: data.order.id, // Order Id from backend
+                order_id: data.order.id,
                 name: "Ekart",
                 description: "Order Payment",
                 handler: async function (response) {
@@ -111,17 +111,19 @@ const AddressForm = () => {
             };
             const rzp = new window.Razorpay(options)
 
-            // listen for payment failures
             rzp.on("payment.failed", async function (response) {
-                await axios.post(`${import.meta.env.VITE_URL}/api/v1/orders/verify-payment`, {
-                    razorpay_order_id: data.order.id,
-                    paymentFailed: true
-                }, {
-                    headers:
-                    {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                });
+                try {
+                    await axios.post(`${import.meta.env.VITE_URL}/api/v1/orders/verify-payment`, {
+                        razorpay_order_id: data.order.id,
+                        paymentFailed: true
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    });
+                } catch (err) {
+                    console.log("Order marked failed:", err);
+                }
                 toast.error("Payment Failed. Please try again")
             })
             rzp.open()
@@ -132,9 +134,9 @@ const AddressForm = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto grid place-items-center p-10">
-            <div className="grid grid-cols-2 items-start gap-20 mt-10 max-w-7xl mx-auto">
-                <div className="space-y-4 p-6 bg-white">
+        <div className="max-w-7xl mx-auto p-4 sm:p-6 md:p-10 pt-24 md:pt-28">
+            <div className="grid grid-cols-1 lg:grid-cols-2 items-start gap-8 lg:gap-20 mt-4 max-w-7xl mx-auto">
+                <div className="space-y-4 p-4 sm:p-6 bg-white rounded-lg shadow-sm">
                     {
                         showForm ? (
                             <>
@@ -235,7 +237,7 @@ const AddressForm = () => {
                                             <p className="font-medium" >{addr.fullName}</p>
                                             <p>{addr.phone}</p>
                                             <p>{addr.email}</p>
-                                            <p>{addr.address}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}</p>
+                                            <p className="text-sm break-words">{addr.address}, {addr.city}, {addr.state}, {addr.zip}, {addr.country}</p>
                                             <button onClick={(e) => dispatch(deleteAddress(index))} className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm">
                                                 Delete
                                             </button>
@@ -250,8 +252,8 @@ const AddressForm = () => {
                     }
                 </div>
                 {/* Right side order summery */}
-                <div>
-                    <Card className='w-[400px]'>
+                <div className="w-full">
+                    <Card className='w-full lg:w-[400px] lg:ml-auto'>
                         <CardHeader>
                             <CardTitle>Order Summary</CardTitle>
                         </CardHeader>

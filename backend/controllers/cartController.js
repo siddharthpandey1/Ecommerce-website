@@ -90,7 +90,11 @@ export const updateQuantity = async (req, res) => {
             });
         if (type === "increase") item.quantity += 1;
         if (type === "decrease" && item.quantity > 1) item.quantity -= 1;
+                console.log("Cart items before total calc:", cart.items.map(i => ({ price: i.price, qty: i.quantity, priceType: typeof i.price })));
+
         cart.totalPrice = cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+                console.log("New totalPrice:", cart.totalPrice);
+
         await cart.save();
         cart = await cart.populate("items.productId");
         res.status(200).json({

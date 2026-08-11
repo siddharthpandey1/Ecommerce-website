@@ -45,7 +45,7 @@ export const createOrder = async (req, res) => {
 export const verifyPayment = async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, paymentFailed } = req.body;
-        const userId = req.user._id 
+        const userId = req.user._id
 
         if (paymentFailed) {
             const order = await Order.findOneAndUpdate(
@@ -53,7 +53,11 @@ export const verifyPayment = async (req, res) => {
                 { status: "Failed" },
                 { new: true }
             );
-            return res.status(400).json({ success: false, message: "Payment failed", order });
+            return res.status(200).json({
+                success: false,
+                message: "Payment failed",
+                order
+            });
         }
 
         const sign = razorpay_order_id + "|" + razorpay_payment_id;
@@ -73,16 +77,16 @@ export const verifyPayment = async (req, res) => {
                 { new: true }
             );
 
-            await Cart.findOneAndUpdate({userId}, {$set: {items:[], totalPrice: 0} })
+            await Cart.findOneAndUpdate({ userId }, { $set: { items: [], totalPrice: 0 } })
 
-            return res.json({ success: true, message: "Payment Successfull", order})
+            return res.json({ success: true, message: "Payment Successfull", order })
         } else {
             await Order.findOneAndUpdate(
                 { razorpayOrderId: razorpay_order_id },
                 { status: "Failed" },
                 { new: true }
             );
-            return res.status(400).json({ success:false, message: "Invalid Signature" })
+            return res.status(400).json({ success: false, message: "Invalid Signature" })
         }
     } catch (error) {
         console.error("Error in verify Payment", error);
@@ -95,9 +99,9 @@ export const getMyOrder = async (req, res) => {
         const userId = req.id;
 
         const orders = await Order.find({ user: userId })
-            .populate({ 
-                path: "products.productId", 
-                select: "productName productPrice productImg" 
+            .populate({
+                path: "products.productId",
+                select: "productName productPrice productImg"
             })
             .populate("user", "firstName lastName email");
 
@@ -110,107 +114,107 @@ export const getMyOrder = async (req, res) => {
     } catch (error) {
         console.error("Error fetching user orders:", error);
 
-        res.status(500).json({ 
-            message: error.message 
+        res.status(500).json({
+            message: error.message
         });
     }
 };
 
-export const getUserOrders = async(req, res) =>{
+export const getUserOrders = async (req, res) => {
     try {
-        const {userId} = req.params; // userId will come from url
-        const orders = await Order.find({user:userId})
-        .populate({
-            path:"products.productId",
-            select:"productName productPrice productImg"
-        }) // fatch product details
-        .populate("user", "firstName lastName email") // fetch user info
+        const { userId } = req.params; // userId will come from url
+        const orders = await Order.find({ user: userId })
+            .populate({
+                path: "products.productId",
+                select: "productName productPrice productImg"
+            }) // fatch product details
+            .populate("user", "firstName lastName email") // fetch user info
 
         res.status(200).json({
-            success:true,
-            count:orders.length,
+            success: true,
+            count: orders.length,
             orders
         })
     } catch (error) {
         console.log("Error fetching user order:", error);
-        res.status(500).json({message:error.message})
-        
+        res.status(500).json({ message: error.message })
+
     }
 }
 
-export const getAllOrdersAdmin = async(req, res)=>{
+export const getAllOrdersAdmin = async (req, res) => {
     try {
         const orders = await Order.find()
-        .sort({createAt: -1})
-        .populate("user", "name email")
-        .populate("products.productId", "productName productPrice") // populate product info
+            .sort({ createAt: -1 })
+            .populate("user", "name email")
+            .populate("products.productId", "productName productPrice") // populate product info
 
         res.json({
-            success:true,
-            count:orders.length,
+            success: true,
+            count: orders.length,
             orders
         })
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            success:false,
-            message:"Failed to fatch all orders",
-            error:error.message
+            success: false,
+            message: "Failed to fatch all orders",
+            error: error.message
         })
-        
+
     }
 }
 
-export const getSalesData = async(req, res)=>{
+export const getSalesData = async (req, res) => {
     try {
         const totalUsers = await User.countDocuments({})
         const totalProducts = await product.countDocuments({})
-        const totalOrders = await Order.countDocuments({status:"Paid"})
+        const totalOrders = await Order.countDocuments({ status: "Paid" })
 
         // total sales amount
 
         const totalSaleAgg = await Order.aggregate([
-            {$match : {status:"Paid"}},
-            {$group : {_id: null, total:{$sum:"$amount"}}}
+            { $match: { status: "Paid" } },
+            { $group: { _id: null, total: { $sum: "$amount" } } }
 
         ])
         const totalSales = totalSaleAgg[0]?.total || 0;
         //sales grouped by date (last 30 days)
         const thirtyDaysAgo = new Date()
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate()-30)
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
         const salesByDate = await Order.aggregate([
-            {$match: {status:"Paid", createdAt: {$gte: thirtyDaysAgo}}},
+            { $match: { status: "Paid", createdAt: { $gte: thirtyDaysAgo } } },
             {
-                $group:{
-                    _id:{
-                        $dateToString:{format: "%Y-%m-%d", date:"$createdAt"}
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
                     },
-                    amount: {$sum: "$amount"}
+                    amount: { $sum: "$amount" }
                 }
             },
-            {$sort: {_id: 1}}
+            { $sort: { _id: 1 } }
         ])
-        
-        
-        const formattedSales = salesByDate.map((item)=>({
-            date:item._id,
-            amount:item.amount
+
+
+        const formattedSales = salesByDate.map((item) => ({
+            date: item._id,
+            amount: item.amount
         }))
         console.log(formattedSales);
 
         res.json({
-            success:true,
+            success: true,
             totalUsers,
             totalProducts,
             totalOrders,
             totalSales,
-            sales:formattedSales
+            sales: formattedSales
         })
-        
-        
+
+
     } catch (error) {
         console.error("Error fatching sales data:", error)
-        res.status(500).json({success:false, message:error.message})
+        res.status(500).json({ success: false, message: error.message })
     }
 }

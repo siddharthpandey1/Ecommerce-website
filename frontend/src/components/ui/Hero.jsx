@@ -3,16 +3,16 @@ import { Button } from "./button";
 
 const Hero = () => {
   return (
-    <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 pt-50">
+    <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-10 md:py-16 pt-28 md:pt-40">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">
+          <div className="text-center md:text-left">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4">
               Latest Electronics at Best Prices</h1>
-            <p className="text-xl mb-6 text-blue-100">
+            <p className="text-base sm:text-xl mb-6 text-blue-100">
               Discover cutting-edge technology with unbeatable deals on
               smartphones, laptops and more.</p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button className="bg-white text-blue-600 hover:bg-gray-100">
                 Shop Now
               </Button>
@@ -24,7 +24,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="relative">
-            <img src="Herro.png" alt="" width={500} height={400} className="rounded-lg shadow-2xl"/>
+            <img src="Herro.png" alt="" className="rounded-lg shadow-2xl w-full h-auto max-w-md mx-auto md:max-w-full"/>
           </div>
         </div>
       </div>
