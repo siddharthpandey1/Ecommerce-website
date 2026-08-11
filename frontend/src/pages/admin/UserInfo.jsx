@@ -75,7 +75,7 @@ const UserInfo = () => {
 
     const getUserDetails = async () => {
         try {
-            const res = await axios.get(`http://localhost:8000/api/v1/user/get-user/${userId}`)
+            const res = await axios.get(`${import.meta.env.VITE_URL}/api/v1/user/get-user/${userId}`)
             console.log("API Response:", res.data.user)
             if (res.data.success) {
                 setUpdateUser(res.data.user)

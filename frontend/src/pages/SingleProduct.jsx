@@ -22,7 +22,7 @@ const SingleProduct = () => {
             // fallback: agar Redux me nahi mila (page refresh case), to API se fetch karo
             const fetchProduct = async () => {
                 try {
-                    const res = await axios.get(`http://localhost:8000/api/v1/product/${productId}`)
+                    const res = await axios.get(`${import.meta.env.VITE_URL}/api/v1/product/${productId}`)
                     if (res.data.success) {
                         setProduct(res.data.product)
                     }
