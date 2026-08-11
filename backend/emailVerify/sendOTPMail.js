@@ -17,13 +17,11 @@ export const sendOTPMail = async(otp, email) => {
         html:`<p>Your OTP for password reset is:<b>${otp}</b></p>`
     };
     transporter.sendMail(mailConfigurations, function (error, info) {
-        if (error) throw Error(error);
+        if (error) {
+            console.error('Error sending OTP email:', error);
+            return;
+        }
         console.log('OTP Sent Successfully');
         console.log(info);
-
-
     })
 }
-
-
-

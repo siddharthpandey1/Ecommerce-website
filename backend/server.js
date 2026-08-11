@@ -1,11 +1,16 @@
 import express from 'express'
 import 'dotenv/config'
+import dns from 'dns'
 import ConnectDB from './database/db.js'
 import userRoute from './routes/userRoute.js'
 import productRoute from './routes/productRoute.js'
 import cartRoute from './routes/cartRoute.js'
 import orderRoute from './routes/orderRoute.js'
 import cors from 'cors'
+
+// Force IPv4 first — fixes "connect ENETUNREACH" errors when connecting
+// to Gmail SMTP on hosts (like Render) that don't route outbound IPv6 properly
+dns.setDefaultResultOrder('ipv4first')
 
 const app = express()
 app.use(cors({
