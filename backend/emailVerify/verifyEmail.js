@@ -1,33 +1,34 @@
-import nodemailer from 'nodemailer'
 import 'dotenv/config'
-export const verifyEmail = (token, email) => {
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS
-        }
-    });
 
+export const verifyEmail = async (token, email) => {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173'
 
-    const mailConfigurations = {
-        from: process.env.MAIL_USER,
-        to: email,
+    try {
+        const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'api-key': process.env.BREVO_API_KEY,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender: { name: 'Ekart', email: process.env.MAIL_USER },
+                to: [{ email }],
+                subject: 'Email Verification',
+                htmlContent: `<p>Hi! There, You have recently visited our website and entered your email.</p>
+                    <p>Please follow the given link to verify your email:</p>
+                    <p><a href="${frontendUrl}/verify/${token}">${frontendUrl}/verify/${token}</a></p>
+                    <p>Thanks</p>`
+            })
+        })
 
-        subject: 'Email Verification',
-        text: `Hi! There, You have recently visited
-           our website and entered your email.
-           Please follow the given link to verify your email
-           ${frontendUrl}/verify/${token}
-           Thanks`
-    };
-    transporter.sendMail(mailConfigurations, function (error, info) {
-        if (error) {
-            console.error('Error sending verification email:', error);
-            return;
+        const data = await res.json()
+        if (!res.ok) {
+            console.error('Error sending verification email:', data)
+            return
         }
-        console.log('Email Sent Successfully');
-        console.log(info);
-    })
+        console.log('Email Sent Successfully:', data)
+    } catch (error) {
+        console.error('Error sending verification email:', error)
+    }
 }
