@@ -3,7 +3,7 @@ import { Truck, Shield, Headphones } from "lucide-react";
 
 const Features = () => {
   return (
-    <section className="py-10 md:py-12 bg-muted/50">
+    <section className="py-10 md:py-12 bg-muted/50 ">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
 

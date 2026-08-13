@@ -32,6 +32,7 @@ const Home = () => {
         <div>
             <Hero />
             <Features />
+            
 
             <section className="bg-pink-200 py-10">
                 <div className="max-w-7xl mx-auto px-4">
