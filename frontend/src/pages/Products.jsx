@@ -82,7 +82,7 @@ const Products = () => {
 
 
     return (
-        <div className="pt-20 pb-10 px-4">
+        <div className="pt-20 pb-10 px-4 bg-pink-200">
             <div className="max-w-7xl mx-auto flex gap-7">
                 {/* sidebar */}
                 <FilterSidebar
